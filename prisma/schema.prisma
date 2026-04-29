@@ -13,12 +13,85 @@ datasource db {
 }
 
 model User{
-  id String @id @default(uuid())
-  fullNname String
-  lastName String
+  id String @id 
+  fullNname String?
   email String @unique
-  password String
+  events Event[]
+  orders Order[] // how many ticket purchased for event by user
 }
 
+model Event{
+  id String @id @default(uuid())
+  eventName String
+  category EventCategory
+  type EventType
+  description String
+  imageUrl String? 
+  startDate DateTime
+  endDate DateTime
+  venueName String?
+  location String?
+  capacity Int
+  createdById String
+  createdBy User @relation(fields: [createdById], references: [id])
+  tickets Ticket[]
+  orders Order[]
+  
+createdAt DateTime @default(now())
+}
 
+model Ticket{
+  id String @id @default(uuid())
+  name String
+  price Int
+  quantity Int
+  sold Int @default(0)
+  description String
 
+  eventId String
+  event Event @relation(fields: [eventId], references: [id])
+}
+
+model Order{
+  id String @id @default(uuid())
+
+  userId String
+  user User @relation(fields: [userId], references: [id])
+
+  eventId String
+  event Event @relation(fields: [eventId], references: [id])
+
+  total Int
+
+  attendees Attendee[]
+
+createdAt DateTime @default(now())
+}
+
+model Attendee{
+  id String @id @default(uuid())
+  name String
+  email String?
+
+  orderId String
+  order Order @relation(fields: [orderId], references: [id])
+
+  checkedIn Boolean @default(false)
+}
+
+enum EventCategory{
+  MUSIC
+  FESTIVALS
+  WORKSHOP
+  SPORTS
+  BUSINESS
+  ARTANDCULTURE
+
+}
+
+enum EventType{
+  INPERSON
+  VIRTUAL
+  HYBRID
+
+}

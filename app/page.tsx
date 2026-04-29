@@ -1,9 +1,11 @@
 import React from 'react'
+import Link from 'next/link'
 
 const page = () => {
   return (
     <div>
-      Dashboard
+      <Link href="/dashboard">Dashboard</Link>
+      <p>Calender</p>
     </div>
   )
 }

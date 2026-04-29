@@ -1,9 +1,9 @@
-import {SignOutButton} from "@/app/components/sign-out-button"
+import Link from "next/link"
+
 const dashboard = () => {
   return (
     <div>
-      <p>Dashboard</p>
-      {/* <SignOutButton /> */}
+      Dashboard Page
     </div>
   )
 }
